@@ -2,10 +2,20 @@ import uuid
 
 from app.models.story import Story
 from app.models.chapter import Chapter
+from app.models.character import Character
 from app.schemas.story import StoryRequest
 
 
 def build_story(request: StoryRequest) -> Story:
+
+    hero = Character(
+        name="Unknown Hero",
+        role="Hero",
+        personality="Brave and curious",
+        appearance="To be decided",
+        abilities=[],
+        background="The hero's journey has just begun."
+    )
 
     first_chapter = Chapter(
         chapter_number=1,
@@ -20,5 +30,6 @@ def build_story(request: StoryRequest) -> Story:
         genre=request.genre,
         style=request.style,
         length=request.length,
+        characters=[hero],
         chapters=[first_chapter]
     )

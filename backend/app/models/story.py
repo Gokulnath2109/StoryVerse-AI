@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 from app.models.chapter import Chapter
+from app.models.character import Character
 
 class Story(BaseModel):
     story_id: str
@@ -9,7 +10,7 @@ class Story(BaseModel):
     style: str
     length: str
 
-    characters: List[str] = []
+    characters: List[Character] = []
 
     chapters: List[Chapter] = []
 
