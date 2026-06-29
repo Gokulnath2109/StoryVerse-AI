@@ -1,6 +1,8 @@
 from fastapi import APIRouter
+
 from app.schemas.story import StoryRequest
 from app.services.story_service import generate_story
+from app.services.story_builder import build_story
 
 router = APIRouter()
 
@@ -12,14 +14,9 @@ def get_story():
 
 @router.post("/generate-story")
 def create_story(request: StoryRequest):
-    story = generate_story(
-        request.title,
-        request.genre,
-        request.style,
-        request.length
-    )
+    story = build_story(request)
 
     return {
-        "status": "success",
-        "story": story
+    "status": "success",
+    "story": story.model_dump()
     }
