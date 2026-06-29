@@ -16,8 +16,6 @@ class Story(BaseModel):
 
     current_chapter: int = 1
 
-    choices: List[str] = []
-
     status: str = "ongoing"
 
     ending: str = ""
