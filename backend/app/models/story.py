@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List
-
+from app.models.chapter import Chapter
 
 class Story(BaseModel):
     story_id: str
@@ -11,9 +11,9 @@ class Story(BaseModel):
 
     characters: List[str] = []
 
-    chapters: List[str] = []
+    chapters: List[Chapter] = []
 
-    current_chapter: int = 0
+    current_chapter: int = 1
 
     choices: List[str] = []
 
