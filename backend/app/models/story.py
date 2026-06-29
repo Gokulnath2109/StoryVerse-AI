@@ -15,6 +15,7 @@ class Story(BaseModel):
     chapters: List[Chapter] = []
 
     current_chapter: int = 1
+    current_scene: int = 1
 
     status: str = "ongoing"
 
