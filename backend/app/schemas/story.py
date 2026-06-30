@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List
 
 
@@ -7,4 +7,4 @@ class StoryRequest(BaseModel):
     chapters: int
     genres: List[str]
     character_mode: str   # "auto" or "custom"
-    characters: List[str] = []
+    characters: List[str] = Field(default_factory=list)
