@@ -1,0 +1,12 @@
+[33mec972ba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Implement scene-based story progression foundation
+[33ma3b4c56[m Add continue story endpoint
+[33m00b505d[m Refactor chapter model to support scenes
+[33m5a4bfb5[m Complete Story Engine with characters, chapters and choices
+[33m0076455[m Add character model and initialize hero
+[33mf91715c[m Initialize first chapter in Story Engine
+[33m47e8560[m Add Story Engine with story model and builder
+[33m582adad[m Add story generation API and AI service
+[33m26f542e[m Merge branch 'main' of https://github.com/Gokulnath2109/StoryVerse-AI
+[33m83e6fba[m Set up FastAPI backend and initial API
+[33mb2342b8[m Initial project structure
+[33m7edd63e[m Initial commit
