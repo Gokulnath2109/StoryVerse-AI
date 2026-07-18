@@ -4,6 +4,7 @@ from app.schemas.story import StoryRequest
 from app.schemas.continue_story import ContinueStoryRequest
 from app.services.story_builder import build_story
 from app.services.story_store import story_store
+from app.services.story_engine import continue_story as story_engine
 
 router = APIRouter()
 
@@ -28,6 +29,10 @@ def continue_story(request: ContinueStoryRequest):
             "status": "error",
             "message": "Story not found."
         }
+
+    story = story_engine(story, request.choice_id)
+
+    story_store[story.story_id] = story
 
     return {
         "status": "success",
