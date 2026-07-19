@@ -3,6 +3,7 @@ from typing import List
 
 from app.models.chapter import Chapter
 from app.models.character import Character
+from app.models.game_state import GameState
 
 
 class Story(BaseModel):
@@ -14,6 +15,9 @@ class Story(BaseModel):
 
     # Characters
     characters: List[Character] = Field(default_factory=list)
+
+    # Player Game State
+    game_state: GameState = Field(default_factory=GameState)
 
     # Generated Chapters
     chapters: List[Chapter] = Field(default_factory=list)

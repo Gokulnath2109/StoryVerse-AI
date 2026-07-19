@@ -1,8 +1,8 @@
 import os
+import json
 
 from dotenv import load_dotenv
 from google import genai
-import json
 
 load_dotenv()
 
@@ -54,6 +54,26 @@ Latest Choice:
 Previous Story:
 {previous_story}
 
+Game State:
+
+Health: {story.game_state.health}
+Mana: {story.game_state.mana}
+Level: {story.game_state.level}
+Experience: {story.game_state.experience}
+Gold: {story.game_state.gold}
+
+Inventory:
+{", ".join(story.game_state.inventory) if story.game_state.inventory else "Empty"}
+
+Quests:
+{", ".join(story.game_state.quests) if story.game_state.quests else "None"}
+
+Companions:
+{", ".join(story.game_state.companions) if story.game_state.companions else "None"}
+
+Relationships:
+{story.game_state.relationships}
+
 Generate the next scene.
 
 Return ONLY valid JSON.
@@ -62,6 +82,7 @@ The JSON must follow this format exactly:
 
 {{
   "content": "Next scene description",
+
   "choices": [
     {{
       "id": "choice_1",
@@ -79,10 +100,36 @@ The JSON must follow this format exactly:
       "id": "choice_4",
       "text": "Fourth choice"
     }}
-  ]
+  ],
+
+  "game_state_updates": {{
+    "health_change": 0,
+    "mana_change": 0,
+    "gold_change": 0,
+    "experience_change": 0,
+
+    "add_inventory": [],
+    "remove_inventory": [],
+
+    "add_quests": [],
+    "remove_quests": []
+  }}
 }}
 
-Rules:
+Game State Rules:
+
+- Use health_change to increase or decrease health.
+- Use mana_change to increase or decrease mana.
+- Use gold_change to increase or decrease gold.
+- Use experience_change to award experience.
+- If the player finds an item, put it in add_inventory.
+- If the player loses an item, put it in remove_inventory.
+- If the player starts a quest, put it in add_quests.
+- If the player completes a quest, put it in remove_quests.
+- If nothing changes, leave all values as 0 or empty lists.
+
+Final Rules:
+
 - Return ONLY JSON.
 - No markdown.
 - No explanations.
