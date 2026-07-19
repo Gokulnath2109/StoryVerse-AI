@@ -1,24 +1,95 @@
 from app.models.story import Story
 from app.models.scene import Scene
 from app.models.choice import Choice
+from app.models.chapter import Chapter
 from app.services.gemini_service import generate_scene
+
+MAX_SCENES_PER_CHAPTER = 5
 
 
 def continue_story(story: Story, choice_id: str) -> Story:
     """
-    Continues the story using the Gemini service.
+    Continues the story using Gemini and updates the player's game state.
     """
 
     # Save player's choice
     story.choice_history.append(choice_id)
 
-    # Move to next scene
-    story.current_scene += 1
+    # --------------------------------------------------
+    # Generate next scene from Gemini
+    # --------------------------------------------------
 
-    # Ask Gemini Service (currently returns placeholder data)
     response = generate_scene(story, choice_id)
 
-    # Convert JSON response into Scene object
+    # --------------------------------------------------
+    # Update Game State
+    # --------------------------------------------------
+
+    updates = response.get("game_state_updates", {})
+
+    story.game_state.health += updates.get("health_change", 0)
+    story.game_state.mana += updates.get("mana_change", 0)
+    story.game_state.gold += updates.get("gold_change", 0)
+    story.game_state.experience += updates.get("experience_change", 0)
+
+    story.game_state.health = max(0, story.game_state.health)
+    story.game_state.mana = max(0, story.game_state.mana)
+    story.game_state.gold = max(0, story.game_state.gold)
+    story.game_state.experience = max(0, story.game_state.experience)
+
+    # Inventory
+    for item in updates.get("add_inventory", []):
+        if item not in story.game_state.inventory:
+            story.game_state.inventory.append(item)
+
+    for item in updates.get("remove_inventory", []):
+        if item in story.game_state.inventory:
+            story.game_state.inventory.remove(item)
+
+    # Quests
+    for quest in updates.get("add_quests", []):
+        if quest not in story.game_state.quests:
+            story.game_state.quests.append(quest)
+
+    for quest in updates.get("remove_quests", []):
+        if quest in story.game_state.quests:
+            story.game_state.quests.remove(quest)
+
+    # --------------------------------------------------
+    # Chapter Progression
+    # --------------------------------------------------
+
+    current_chapter = story.chapters[story.current_chapter - 1]
+
+    if len(current_chapter.scenes) >= MAX_SCENES_PER_CHAPTER:
+
+        # Create next chapter only if available
+        if story.current_chapter < story.total_chapters:
+
+            story.current_chapter += 1
+            story.current_scene = 1
+
+            new_chapter = Chapter(
+                chapter_number=story.current_chapter,
+                title=f"Chapter {story.current_chapter}",
+                scenes=[]
+            )
+
+            story.chapters.append(new_chapter)
+
+            current_chapter = new_chapter
+
+        else:
+            # Stay in last chapter
+            story.current_scene += 1
+
+    else:
+        story.current_scene += 1
+
+    # --------------------------------------------------
+    # Create Scene
+    # --------------------------------------------------
+
     scene = Scene(
         scene_number=story.current_scene,
         content=response["content"],
@@ -31,7 +102,6 @@ def continue_story(story: Story, choice_id: str) -> Story:
         ]
     )
 
-    # Add scene to current chapter
-    story.chapters[story.current_chapter - 1].scenes.append(scene)
+    current_chapter.scenes.append(scene)
 
     return story
