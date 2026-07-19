@@ -1,9 +1,44 @@
-import google.generativeai as genai
+import os
 
-genai.configure(api_key="AQ.Ab8RN6L1qazTR1uUaXejbbSrYsnmfVWagJL4mSSG8E2qIMzXaA")
+from dotenv import load_dotenv
+from google import genai
 
-model = genai.GenerativeModel("gemini-1.5-flash")
+load_dotenv()
 
-def generate_scene(prompt: str):
-    response = model.generate_content(prompt)
-    return response.text
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+
+
+def generate_scene(story, choice_id):
+    """
+    Temporary Gemini integration.
+    Later we'll replace the prompt with the full StoryVerse prompt.
+    """
+
+    response = client.models.generate_content(
+        model="gemini-3.5-flash",
+        contents="Say hello in one sentence."
+    )
+
+    return {
+        "content": response.text,
+        "choices": [
+            {
+                "id": "choice1",
+                "text": "Continue"
+            },
+            {
+                "id": "choice2",
+                "text": "Stop"
+            },
+            {
+                "id": "choice3",
+                "text": "Look Around"
+            },
+            {
+                "id": "choice4",
+                "text": "Run"
+            }
+        ]
+    }
