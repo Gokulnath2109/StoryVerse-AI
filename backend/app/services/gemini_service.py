@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from google import genai
+import json
 
 load_dotenv()
 
@@ -114,7 +115,6 @@ def generate_scene(story, choice_id):
     print(response.text)
     print("=" * 80 + "\n")
 
-    return {
-        "content": response.text,
-        "choices": []
-    }
+    scene = json.loads(response.text)
+
+    return scene
