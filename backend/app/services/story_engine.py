@@ -2,7 +2,7 @@ from app.models.story import Story
 from app.models.scene import Scene
 from app.models.choice import Choice
 from app.models.chapter import Chapter
-from app.services.gemini_service import generate_scene
+from app.services.ai_manager import generate_scene
 
 MAX_SCENES_PER_CHAPTER = 5
 
