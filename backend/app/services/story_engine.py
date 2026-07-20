@@ -55,6 +55,16 @@ def continue_story(story: Story, choice_id: str) -> Story:
         if quest in story.game_state.quests:
             story.game_state.quests.remove(quest)
 
+    # ----------------------------
+    # Update Relationships
+    # ----------------------------
+
+    for npc, change in updates.get("relationship_updates", {}).items():
+        if npc not in story.game_state.relationships:
+            story.game_state.relationships[npc] = 0
+
+        story.game_state.relationships[npc] += change
+
     # --------------------------------------------------
     # Chapter Progression
     # --------------------------------------------------

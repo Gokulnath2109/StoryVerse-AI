@@ -112,7 +112,9 @@ The JSON must follow this format exactly:
     "remove_inventory": [],
 
     "add_quests": [],
-    "remove_quests": []
+    "remove_quests": [],
+
+    "relationship_updates": {{}}
   }}
 }}
 
@@ -127,6 +129,18 @@ Game State Rules:
 - If the player starts a quest, put it in add_quests.
 - If the player completes a quest, put it in remove_quests.
 - If nothing changes, leave all values as 0 or empty lists.
+
+Relationship Update Rules (MANDATORY)
+
+- After generating the next scene, identify all named NPCs involved in the scene.
+- Determine whether the player's latest choice affects each NPC's opinion of the player.
+- If a relationship changes, update it in relationship_updates using the NPC's exact name.
+- Use positive values for improved relationships and negative values for worsened relationships.
+- If multiple NPCs are affected, include all of them.
+- Do not invent NPCs that are not part of the story.
+- If no relationship changes occur, return an empty object:
+
+"relationship_updates": {{}}
 
 Final Rules:
 
