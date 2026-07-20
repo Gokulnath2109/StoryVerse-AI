@@ -107,6 +107,7 @@ The JSON must follow this format exactly:
     "mana_change": 0,
     "gold_change": 0,
     "experience_change": 0,
+    "danger_change": 0,
 
     "add_inventory": [],
     "remove_inventory": [],
@@ -141,6 +142,15 @@ Relationship Update Rules (MANDATORY)
 - If no relationship changes occur, return an empty object:
 
 "relationship_updates": {{}}
+
+Danger System Rules:
+
+- Analyze the player's latest choice and its consequences.
+- Increase danger for reckless, suspicious, harmful, or dangerous choices.
+- Decrease danger for safe, helpful, or intelligent choices.
+- Use danger_change values between -20 and +30.
+- If the choice does not affect danger, return 0.
+- Never set danger_change directly to 100.
 
 Final Rules:
 

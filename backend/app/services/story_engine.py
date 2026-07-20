@@ -32,6 +32,28 @@ def continue_story(story: Story, choice_id: str) -> Story:
     story.game_state.gold += updates.get("gold_change", 0)
     story.game_state.experience += updates.get("experience_change", 0)
 
+    # Danger System
+    danger_change = updates.get("danger_change", 0)
+
+    story.game_state.danger_level += danger_change
+
+    # Keep danger between 0 and 100
+    story.game_state.danger_level = max(
+        0,
+        min(100, story.game_state.danger_level)
+    )
+
+    if story.game_state.danger_level >= 100:
+
+        story.status = "ended"
+
+        story.ending = (
+            "The danger you ignored has reached its peak. "
+            "The world has fallen into darkness."
+        )
+
+        return story
+
     story.game_state.health = max(0, story.game_state.health)
     story.game_state.mana = max(0, story.game_state.mana)
     story.game_state.gold = max(0, story.game_state.gold)

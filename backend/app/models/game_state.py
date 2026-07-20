@@ -7,6 +7,7 @@ class GameState(BaseModel):
     level: int = 1
     experience: int = 0
     gold: int = 0
+    danger_level: int = 0
 
     inventory: list[str] = Field(default_factory=list)
     quests: list[str] = Field(default_factory=list)
