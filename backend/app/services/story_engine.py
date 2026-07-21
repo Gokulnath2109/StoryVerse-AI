@@ -3,6 +3,7 @@ from app.models.scene import Scene
 from app.models.choice import Choice
 from app.models.chapter import Chapter
 from app.services.ai_manager import generate_scene
+from app.services.danger_manager import get_danger_warning
 
 MAX_SCENES_PER_CHAPTER = 5
 
@@ -135,5 +136,12 @@ def continue_story(story: Story, choice_id: str) -> Story:
     )
 
     current_chapter.scenes.append(scene)
+
+    warning = get_danger_warning(story.game_state.danger_level)
+
+    if warning:
+        story.warning_message = warning
+    else:
+        story.warning_message = None
 
     return story

@@ -34,3 +34,6 @@ class Story(BaseModel):
 
     # Story Ending
     ending: str = ""
+
+    # Risk Warning (Version 2)
+    warning_message: str | None = None
