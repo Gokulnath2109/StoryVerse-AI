@@ -2,11 +2,13 @@ from app.models.story import Story
 from app.models.scene import Scene
 from app.models.choice import Choice
 from app.models.chapter import Chapter
+from app.events.event_manager import EventManager
 from app.services.ai_manager import generate_scene
 from app.services.danger_manager import get_danger_warning
 
 MAX_SCENES_PER_CHAPTER = 5
 
+event_manager = EventManager()
 
 def continue_story(story: Story, choice_id: str) -> Story:
     """
@@ -24,6 +26,7 @@ def continue_story(story: Story, choice_id: str) -> Story:
 
     if response.get("event") is not None:
         story.active_event = response["event"]
+        event_manager.start_event(story)
     else:
         story.active_event = None
 

@@ -119,6 +119,64 @@ The JSON must follow this format exactly:
   }}
 }}
 
+Event Rules:
+
+- Most scenes should return:
+
+"event": null
+
+- If the story naturally begins an interactive event,
+  return:
+
+"event": {
+    "type": "conflict",
+    "data": {
+        "enemy": "...",
+        "description": "..."
+    }
+}
+
+- Only create an event when the player directly encounters
+  danger that requires immediate interaction.
+
+Examples:
+- Monster attacks
+- Bandit ambush
+- Duel
+- Guard confrontation
+
+Do not create an event for ordinary exploration or dialogue.
+
+Choice ID Rules:
+
+- Every scene must contain exactly 4 choices.
+- Each choice must have a unique action-based ID in snake_case.
+- The ID should briefly describe the player's action.
+- Use only lowercase letters, numbers, and underscores.
+- Do NOT use generic IDs like "choice_1", "choice_2", etc.
+
+Examples:
+
+{
+  "id": "explore_forest",
+  "text": "Explore the mysterious forest"
+}
+
+{
+  "id": "visit_village",
+  "text": "Return to the nearby village"
+}
+
+{
+  "id": "search_satchel",
+  "text": "Search the weathered leather satchel"
+}
+
+{
+  "id": "ask_thorne_about_statue",
+  "text": "Ask Thorne about the statue"
+}
+
 Game State Rules:
 
 - Use health_change to increase or decrease health.

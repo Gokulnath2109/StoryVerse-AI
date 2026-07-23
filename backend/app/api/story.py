@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.schemas.story import StoryRequest
-from backend.app.schemas.requests import ContinueStoryRequest
+from app.schemas.requests import ContinueStoryRequest
 from app.services.story_builder import build_story
 from app.services.story_database import save_story, load_story
 from app.services.story_engine import continue_story as story_engine
