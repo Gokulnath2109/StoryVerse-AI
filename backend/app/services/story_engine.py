@@ -22,6 +22,11 @@ def continue_story(story: Story, choice_id: str) -> Story:
 
     response = generate_scene(story, choice_id)
 
+    if response.get("event") is not None:
+        story.active_event = response["event"]
+    else:
+        story.active_event = None
+
     # --------------------------------------------------
     # Update Game State
     # --------------------------------------------------

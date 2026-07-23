@@ -107,7 +107,7 @@ The JSON must follow this format exactly:
     "mana_change": 0,
     "gold_change": 0,
     "experience_change": 0,
-    "danger_change": 0
+    "danger_change": 0,
 
     "add_inventory": [],
     "remove_inventory": [],
@@ -152,6 +152,40 @@ Danger System Rules:
 - Use danger_change values between -20 and +30.
 - If the choice does not affect danger, return 0.
 - Never set danger_change directly to 100.
+
+Event System Rules:
+
+- Decide whether the current scene should trigger a gameplay event.
+- If no event should start, return:
+  "event": null
+
+- If an event should start, return an event object.
+
+Supported event types:
+- combat
+- romance
+- family
+- investigation
+- puzzle
+- survival
+- trading
+- political
+
+For combat:
+- Generate a complete enemy object.
+- The enemy must include:
+  - name
+  - description
+  - health
+  - attack
+  - defense
+  - xp_reward
+  - gold_reward
+
+- Enemy stats should be reasonable for the current stage of the story.
+- Do not generate overpowered enemies without narrative justification.
+- Do not start an event unless it naturally fits the story.
+- Continue normal storytelling when no event is required.
 
 Final Rules:
 

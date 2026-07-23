@@ -35,5 +35,7 @@ class Story(BaseModel):
     # Story Ending
     ending: str = ""
 
+    active_event: dict | None = None
+
     # Risk Warning (Version 2)
     warning_message: str | None = None
